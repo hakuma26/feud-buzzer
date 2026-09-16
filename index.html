@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#040812">
+    <meta name="theme-color" content="#030714">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Friendly Feud - Live Buzzer Controller</title>
     <!-- Modern TV Studio Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Roboto+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Nunito:wght@700;800;900&family=Roboto+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
     <!-- PeerJS WebRTC Library (CDN + Local Fallback) -->
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" onerror="this.onerror=null;this.src='assets/vendor/peerjs.min.js'"></script>
 
@@ -30,12 +30,12 @@
             --gold: #f5c842;
             --gold-light: #fef08a;
             --gold-dark: #b45309;
-            --navy-950: #040812;
-            --navy-900: #08111f;
-            --navy-800: #0e1c38;
-            --navy-700: #1a2f55;
-            --emerald-500: #22c55e;
-            --ruby-500: #ef4444;
+            --navy-950: #030714;
+            --navy-900: #060e22;
+            --navy-800: #0d1b3a;
+            --navy-700: #172c5b;
+            --emerald: #22c55e;
+            --ruby: #ef4444;
         }
 
         html, body {
@@ -44,15 +44,15 @@
             overflow: hidden;
             background-color: var(--navy-950);
             background-image:
-                radial-gradient(ellipse at 50% 15%, rgba(26, 54, 98, 0.65) 0%, transparent 65%),
-                radial-gradient(circle at 50% 85%, color-mix(in srgb, var(--team-color) 20%, transparent) 0%, transparent 70%),
-                linear-gradient(180deg, #03060d 0%, #08111f 100%);
+                radial-gradient(ellipse at 50% 0%, rgba(30, 64, 138, 0.7) 0%, transparent 65%),
+                radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--team-color) 20%, transparent) 0%, transparent 60%),
+                linear-gradient(180deg, #02050e 0%, #060e22 50%, #030714 100%);
             color: #ffffff;
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         /* -------------------------------------------------------------
-           VIEW CONTAINERS (SHOWCASE VS LIVE BUZZER)
+           VIEW CONTAINER SWITCHING
         ------------------------------------------------------------- */
         .view-section {
             display: none;
@@ -66,244 +66,270 @@
         }
 
         /* =============================================================
-           1. SHOWCASE LANDING PORTAL (DIRECT VISITORS)
+           1. SHOWCASE LANDING PAGE (DIRECT VISITORS - 100% ENGLISH)
         ============================================================= */
         #showcase-portal {
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px) 20px;
+            justify-content: flex-start;
+            padding: env(safe-area-inset-top, 24px) 18px env(safe-area-inset-bottom, 24px) 18px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            background: radial-gradient(circle at 50% 20%, rgba(30, 58, 138, 0.45) 0%, rgba(4, 8, 18, 0.98) 85%);
+            background:
+                radial-gradient(circle at 50% -10%, rgba(245, 200, 66, 0.22) 0%, transparent 55%),
+                radial-gradient(circle at 50% 25%, rgba(29, 78, 216, 0.35) 0%, transparent 70%),
+                linear-gradient(180deg, #02050f 0%, #060e24 100%);
         }
 
-        .showcase-content {
+        .showcase-container {
             width: 100%;
-            max-width: 440px;
+            max-width: 460px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             gap: 16px;
             margin: auto 0;
+            padding: 10px 0;
         }
 
-        /* Logo / Header Plaque */
-        .showcase-emblem {
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #ffd700 0%, #d4af37 40%, #78350f 100%);
-            border: 2px solid #fef08a;
-            box-shadow: 0 10px 30px rgba(245, 200, 66, 0.35), inset 0 2px 6px rgba(255, 255, 255, 0.6);
+        /* Logo Area */
+        .showcase-logo-wrap {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-size: 2.8rem;
-            animation: emblemFloat 4s ease-in-out infinite;
+            gap: 8px;
+            position: relative;
         }
 
-        @keyframes emblemFloat {
+        .showcase-logo-img {
+            max-width: 240px;
+            width: 75%;
+            height: auto;
+            filter: drop-shadow(0 10px 25px rgba(245, 200, 66, 0.35));
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
         }
 
-        .showcase-title-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .showcase-title {
-            font-family: 'Roboto Condensed', sans-serif;
-            font-size: 2.3rem;
+        /* 3D Extruded Gold Title (Matches Game Stage) */
+        .showcase-marquee-title {
+            font-family: 'Roboto Condensed', 'Montserrat', sans-serif;
+            font-size: 2.5rem;
             font-weight: 900;
             letter-spacing: 2px;
             text-transform: uppercase;
-            background: linear-gradient(180deg, #ffffff 0%, #fde047 35%, #ca8a04 80%, #fef08a 100%);
+            line-height: 1.05;
+            background: linear-gradient(180deg, #ffffff 0%, #fef08a 25%, #eab308 60%, #ca8a04 85%, #fef08a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 15px rgba(245, 200, 66, 0.3);
-            line-height: 1.1;
+            filter: drop-shadow(0 4px 14px rgba(245, 200, 66, 0.4));
         }
 
-        .showcase-edition-pill {
+        .showcase-badge-pill {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 4px 14px;
-            background: rgba(245, 200, 66, 0.12);
-            border: 1px solid rgba(245, 200, 66, 0.4);
-            border-radius: 20px;
+            padding: 5px 16px;
+            background: linear-gradient(135deg, rgba(245, 200, 66, 0.18) 0%, rgba(180, 83, 9, 0.28) 100%);
+            border: 1.5px solid rgba(245, 200, 66, 0.55);
+            border-radius: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.3);
             font-size: 0.78rem;
-            font-weight: 800;
+            font-weight: 900;
             color: var(--gold-light);
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
-        .showcase-slogan {
+        .showcase-tagline {
             font-size: 0.95rem;
             line-height: 1.45;
-            color: #cbd5e1;
+            color: #e2e8f0;
             font-weight: 700;
-            max-width: 360px;
+            max-width: 380px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
         }
 
-        /* Feature Cards Grid */
-        .showcase-features {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 6px 0;
-        }
-
-        .showcase-feature-card {
+        /* Sleek 1-Line Feature Badges */
+        .showcase-mini-pills {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            background: rgba(14, 28, 56, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            backdrop-filter: blur(10px);
-            text-align: left;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .feat-icon {
-            font-size: 1.6rem;
-            flex-shrink: 0;
-        }
-
-        .feat-text strong {
-            display: block;
-            font-size: 0.9rem;
-            color: #ffffff;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 0.82rem;
             font-weight: 800;
+            color: #cbd5e1;
+            padding: 4px 10px;
+            letter-spacing: 0.5px;
         }
 
-        .feat-text span {
-            font-size: 0.78rem;
-            color: #94a3b8;
-            font-weight: 600;
+        .showcase-mini-pills span.dot {
+            color: var(--gold);
+            opacity: 0.6;
         }
 
-        /* Call To Action Button (Etsy) */
+        /* Luxury 3D Etsy Call-To-Action Button */
         .btn-etsy-cta {
             width: 100%;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
-            border: 2px solid #fde68a;
-            border-radius: 14px;
+            padding: 15px 22px;
+            background: linear-gradient(180deg, #fbbf24 0%, #d97706 45%, #b45309 85%, #78350f 100%);
+            border: 2px solid #fef08a;
+            border-radius: 16px;
             color: #ffffff;
-            font-family: 'Roboto Condensed', sans-serif;
-            font-size: 1.15rem;
+            font-family: 'Roboto Condensed', 'Montserrat', sans-serif;
+            font-size: 1.22rem;
             font-weight: 900;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            box-shadow: 0 8px 24px rgba(217, 119, 6, 0.45), inset 0 2px 4px rgba(255, 255, 255, 0.4);
-            transition: all .2s ease;
+            gap: 12px;
+            box-shadow:
+                0 8px 0 #78350f,
+                0 14px 28px rgba(180, 83, 9, 0.6),
+                inset 0 2px 5px rgba(255, 255, 255, 0.6);
+            transition: all .15s ease;
             position: relative;
             overflow: hidden;
+            margin-top: 4px;
         }
 
         .btn-etsy-cta:active {
-            transform: scale(0.98);
-            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.6);
+            transform: translateY(4px);
+            box-shadow:
+                0 4px 0 #78350f,
+                0 8px 16px rgba(180, 83, 9, 0.7),
+                inset 0 1px 3px rgba(255, 255, 255, 0.6);
         }
 
-        /* Manual PIN Entry Accordion */
-        .manual-join-dock {
+        /* Live Game Night PIN Station */
+        .live-pin-station {
             width: 100%;
-            background: rgba(8, 17, 31, 0.8);
-            border: 1px dashed rgba(245, 200, 66, 0.35);
-            border-radius: 14px;
-            padding: 12px 14px;
+            background: linear-gradient(180deg, rgba(8, 17, 34, 0.9) 0%, rgba(3, 7, 18, 0.95) 100%);
+            border: 1.5px solid rgba(245, 200, 66, 0.35);
+            border-radius: 18px;
+            padding: 14px 16px;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        .manual-join-label {
-            font-size: 0.78rem;
-            font-weight: 800;
-            color: #cbd5e1;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .manual-inputs-row {
+        .live-pin-header {
             display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: 8px;
-            width: 100%;
         }
 
-        .manual-pin-input {
-            flex: 1;
-            padding: 10px;
-            background: #020617;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+        .live-pin-title {
+            font-size: 0.82rem;
+            font-weight: 900;
             color: var(--gold-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .live-pin-sub {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .pin-inputs-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .pin-input {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 10px;
+            background: #020617;
+            border: 1.5px solid rgba(245, 200, 66, 0.4);
+            border-radius: 10px;
+            color: #ffffff;
             font-family: 'Roboto Condensed', monospace;
-            font-size: 1.1rem;
-            font-weight: 800;
-            letter-spacing: 2px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 3px;
             text-align: center;
             text-transform: uppercase;
             outline: none;
+            box-sizing: border-box;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
         }
 
-        .manual-pin-input:focus {
+        .pin-input:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(245, 200, 66, 0.3);
+            box-shadow: 0 0 16px rgba(245, 200, 66, 0.4), inset 0 2px 6px rgba(0, 0, 0, 0.8);
         }
 
-        .manual-team-select {
-            padding: 10px 8px;
-            background: #0b1528;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+        .team-select {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 10px;
+            background: #0d1b3a;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
             color: #ffffff;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 800;
             outline: none;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        .btn-manual-join {
-            padding: 10px 14px;
-            background: linear-gradient(135deg, #22c55e, #15803d);
-            border: 1px solid #86efac;
-            border-radius: 8px;
+        .btn-join-live {
+            width: 100%;
+            padding: 13px 18px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+            border: 1.5px solid #86efac;
+            border-radius: 10px;
             color: #ffffff;
             font-family: 'Roboto Condensed', sans-serif;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             cursor: pointer;
             text-transform: uppercase;
+            box-sizing: border-box;
+            box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+            transition: all .15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-join-live:active {
+            transform: scale(0.98);
         }
 
         .showcase-footer {
-            margin-top: 14px;
+            margin-top: 10px;
             font-size: 0.72rem;
             color: #64748b;
             font-weight: 700;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
         }
 
 
         /* =============================================================
-           2. LIVE PHONE BUZZER CONTROLLER (#buzzer-app)
+           2. LIVE PHONE BUZZER CONTROLLER (#buzzer-app - 100% ENGLISH)
         ============================================================= */
         #buzzer-app {
             flex-direction: column;
@@ -322,8 +348,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 8px 14px;
-            background: rgba(8, 17, 31, 0.85);
-            border: 1px solid rgba(245, 200, 66, 0.28);
+            background: rgba(6, 14, 34, 0.88);
+            border: 1.5px solid rgba(245, 200, 66, 0.32);
             border-radius: 16px;
             backdrop-filter: blur(14px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -334,7 +360,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: #94a3b8;
             font-weight: 800;
             text-transform: uppercase;
@@ -344,9 +370,9 @@
         .room-badge strong {
             color: var(--gold);
             font-family: 'Roboto Condensed', sans-serif;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 900;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
         }
 
         .top-hud-right {
@@ -398,10 +424,10 @@
 
         .btn-audio-toggle {
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -410,7 +436,7 @@
             cursor: pointer;
         }
 
-        /* Team Contestant Banner */
+        /* Team Contestant Plaque */
         .team-banner {
             display: flex;
             flex-direction: column;
@@ -426,21 +452,21 @@
             width: 76px;
             height: 76px;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.8) 80%);
+            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0.85) 80%);
             border: 3.5px solid var(--team-color);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
             box-shadow:
-                0 0 30px color-mix(in srgb, var(--team-color) 45%, transparent),
+                0 0 32px color-mix(in srgb, var(--team-color) 45%, transparent),
                 0 10px 20px rgba(0, 0, 0, 0.7),
-                inset 0 2px 6px rgba(255, 255, 255, 0.35);
+                inset 0 2px 6px rgba(255, 255, 255, 0.4);
             animation: avatarFloat 4s ease-in-out infinite;
         }
 
         .team-name-tag {
-            font-family: 'Roboto Condensed', sans-serif;
+            font-family: 'Roboto Condensed', 'Montserrat', sans-serif;
             font-size: 1.95rem;
             font-weight: 900;
             text-transform: uppercase;
@@ -455,7 +481,7 @@
             white-space: nowrap;
         }
 
-        /* Phase / Status Announcement Bar */
+        /* Phase Announcement Bar */
         .phase-message {
             font-size: 0.95rem;
             font-weight: 900;
@@ -469,9 +495,7 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
         }
 
-        /* -------------------------------------------------------------
-           GIANT 3D TACTILE DOME BUZZER BUTTON
-        ------------------------------------------------------------- */
+        /* Giant 3D Mechanical Dome Buzzer Button */
         .buzzer-stage {
             flex: 1;
             width: 100%;
@@ -483,7 +507,6 @@
             margin: 6px 0;
         }
 
-        /* Outer 3D Studio Bezel / Housing */
         .buzzer-housing {
             width: 100%;
             aspect-ratio: 1;
@@ -491,7 +514,7 @@
             border-radius: 50%;
             background: linear-gradient(145deg, #2a3b5c 0%, #0c1424 50%, #03060c 100%);
             padding: 16px;
-            border: 3px solid rgba(255, 255, 255, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.2);
             box-shadow:
                 0 22px 50px rgba(0, 0, 0, 0.95),
                 0 0 40px rgba(0, 0, 0, 0.8),
@@ -502,7 +525,6 @@
             position: relative;
         }
 
-        /* The actual dome push-button */
         .btn-buzz {
             width: 100%;
             height: 100%;
@@ -524,7 +546,6 @@
             user-select: none;
         }
 
-        /* Realistic Glass Dome Glare Reflection */
         .btn-buzz::after {
             content: '';
             position: absolute;
@@ -576,17 +597,6 @@
                 inset 0 2px 8px rgba(255, 255, 255, 0.85);
         }
 
-        @keyframes buzzerArmedPulse {
-            0% {
-                transform: scale(0.98);
-                filter: brightness(1);
-            }
-            100% {
-                transform: scale(1.03);
-                filter: brightness(1.25);
-            }
-        }
-
         /* State 3: WINNER (FIRST BUZZ!) */
         .btn-buzz.winner {
             background: radial-gradient(circle at 45% 35%, #ffffff 0%, #22c55e 50%, #14532d 100%) !important;
@@ -599,12 +609,6 @@
                 inset 0 4px 14px rgba(255, 255, 255, 0.85) !important;
             animation: buzzWinnerPop .45s cubic-bezier(.17, .89, .32, 1.49);
             cursor: not-allowed;
-        }
-
-        @keyframes buzzWinnerPop {
-            0% { transform: scale(0.85); }
-            50% { transform: scale(1.12); }
-            100% { transform: scale(1); }
         }
 
         /* State 4: LOCKED OUT (OPPONENT WON) */
@@ -621,14 +625,6 @@
             cursor: not-allowed;
         }
 
-        @keyframes buzzLockedShake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-14px); }
-            40% { transform: translateX(14px); }
-            60% { transform: translateX(-8px); }
-            80% { transform: translateX(8px); }
-        }
-
         /* Bottom Live Guide */
         .bottom-bar {
             width: 100%;
@@ -640,7 +636,7 @@
             letter-spacing: 0.3px;
         }
 
-        /* Screen Flash for Haptic Visual Shock */
+        /* Screen Flash for Visual Shock */
         .screen-flash {
             position: fixed;
             inset: 0;
@@ -661,78 +657,63 @@
     <div class="screen-flash" id="flash"></div>
 
     <!-- =============================================================
-         1. SHOWCASE / VITRIN VIEW (DIRECT VISITORS WITHOUT ROOM CODE)
+         1. SHOWCASE LANDING VIEW (DIRECT VISITORS - 100% ENGLISH)
     ============================================================= -->
     <main id="showcase-portal" class="view-section">
-        <div class="showcase-content">
-            <div class="showcase-emblem">🎮</div>
-
-            <div class="showcase-title-wrap">
-                <h1 class="showcase-title">FRIENDLY FEUD</h1>
-                <div class="showcase-edition-pill">
+        <div class="showcase-container">
+            <!-- Game Logo & TV Marquee Header (Clean & Uncluttered) -->
+            <div class="showcase-logo-wrap">
+                <img src="assets/images/friendlyfeud_logo.png" alt="Friendly Feud Logo" class="showcase-logo-img" onerror="this.style.display='none'">
+                <div class="showcase-badge-pill">
                     <span>★ PROFESSIONAL TV GAME SHOW EDITION ★</span>
                 </div>
             </div>
 
-            <p class="showcase-slogan">
-                Partiler, Aileler, Okullar ve Etkinlikler İçin Gerçek Bir TV Yarışma Deneyimi!
-            </p>
-
-            <div class="showcase-features">
-                <div class="showcase-feature-card">
-                    <div class="feat-icon">📱</div>
-                    <div class="feat-text">
-                        <strong>Canlı Telefon Buzzer Sistemi</strong>
-                        <span>Uygulama yüklemeden QR kod ile anında bağlanın ve takımınız adına ilk basan siz olun!</span>
-                    </div>
-                </div>
-
-                <div class="showcase-feature-card">
-                    <div class="feat-icon">🏆</div>
-                    <div class="feat-text">
-                        <strong>Orijinal TV Stüdyo Atmosferi</strong>
-                        <span>Gerçek yarışma zil sesleri, elektronik skor panosu ve ışık efektleri.</span>
-                    </div>
-                </div>
-
-                <div class="showcase-feature-card">
-                    <div class="feat-icon">⚡</div>
-                    <div class="feat-text">
-                        <strong>Hızlı Para (Fast Money) Finali</strong>
-                        <span>Büyük ödül için 60 saniyelik nefes kesen bonus etabı.</span>
-                    </div>
-                </div>
+            <!-- Compact 1-Line Feature Badges -->
+            <div class="showcase-mini-pills">
+                <span>📱 Live Buzzers</span>
+                <span class="dot">•</span>
+                <span>🏆 TV Studio Stage</span>
+                <span class="dot">•</span>
+                <span>⚡ Fast Money</span>
             </div>
 
-            <!-- Call To Action Button (Direct to Etsy Shop) -->
-            <a href="https://www.etsy.com/shop/SeyyahDigital" target="_blank" rel="noopener" class="btn-etsy-cta" title="Friendly Feud Oyununu Etsy'de İnceleyin">
-                <span>🛍️ ETSY MAĞAZAMIZDAN SATIN ALIN</span>
+            <!-- High-Impact Etsy Store Call-To-Action -->
+            <a href="https://www.etsy.com/shop/SeyyahDigital" target="_blank" rel="noopener" class="btn-etsy-cta" title="Visit SeyyahDigital Shop on Etsy">
+                <span>🛍️ GET IT ON ETSY • VISIT SHOP →</span>
             </a>
 
-            <!-- Manual PIN Entry (For players joining manually or with camera issue) -->
-            <div class="manual-join-dock">
-                <span class="manual-join-label">Zaten bir oyuna katılmak üzere misiniz?</span>
-                <div class="manual-inputs-row">
-                    <input type="text" id="manual-pin-input" class="manual-pin-input" placeholder="4 HANELİ PIN" maxlength="4" autocomplete="off" spellcheck="false">
-                    <select id="manual-team-select" class="manual-team-select">
-                        <option value="0">1. TAKIM</option>
-                        <option value="1">2. TAKIM</option>
-                    </select>
-                    <button type="button" id="btn-manual-join" class="btn-manual-join">BAĞLAN</button>
+            <!-- Live Game PIN Station (Spacious & Clean, Zero Overflow) -->
+            <div class="live-pin-station">
+                <div class="live-pin-header">
+                    <span class="live-pin-title">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        JOIN A LIVE GAME
+                    </span>
+                    <span class="live-pin-sub">Enter host's 4-digit PIN:</span>
                 </div>
+                <div class="pin-inputs-row">
+                    <input type="text" id="manual-pin-input" class="pin-input" placeholder="4-DIGIT PIN" maxlength="4" autocomplete="off" spellcheck="false">
+                    <select id="manual-team-select" class="team-select">
+                        <option value="0">🦁 TEAM 1</option>
+                        <option value="1">🐺 TEAM 2</option>
+                    </select>
+                </div>
+                <button type="button" id="btn-manual-join" class="btn-join-live">⚡ CONNECT TO GAME</button>
             </div>
 
+            <!-- Footer Credits -->
             <footer class="showcase-footer">
-                Created with excellence by SeyyahDigital • © 2026 All Rights Reserved.
+                Friendly Feud™ • Created with excellence by SeyyahDigital • © 2026 All Rights Reserved.
             </footer>
         </div>
     </main>
 
     <!-- =============================================================
-         2. LIVE 3D BUZZER CONTROLLER (#buzzer-app)
+         2. LIVE 3D BUZZER CONTROLLER (#buzzer-app - 100% ENGLISH)
     ============================================================= -->
     <main id="buzzer-app" class="view-section">
-        <!-- TOP STATUS HUD -->
+        <!-- TOP HUD -->
         <header class="top-bar">
             <div class="room-badge">
                 <span>PIN:</span>
@@ -747,7 +728,7 @@
             </div>
         </header>
 
-        <!-- TEAM HEADER -->
+        <!-- TEAM PODIUM -->
         <div class="team-banner">
             <div class="team-avatar-box" id="display-avatar">🦁</div>
             <div class="team-name-tag" id="display-team-name">TEAM 1</div>
@@ -767,7 +748,7 @@
 
         <!-- FOOTER STATUS -->
         <footer class="bottom-bar">
-            <span>Keep this screen open • Screen lock prevented</span>
+            <span>Keep this screen open • Screen lock prevented • Live controller</span>
         </footer>
     </main>
 
@@ -786,7 +767,7 @@
             const buzzerSection = document.getElementById('buzzer-app');
 
             if (!roomCode) {
-                // Direct visitor -> SHOWCASE LANDING PAGE
+                // Direct visitor -> SHOWCASE LANDING PAGE (100% ENGLISH)
                 showcaseSection.classList.add('active');
                 buzzerSection.classList.remove('active');
 
@@ -798,7 +779,7 @@
                 joinBtn?.addEventListener('click', () => {
                     const pinVal = (pinInput?.value || '').trim();
                     if (!pinVal || pinVal.length < 4) {
-                        alert('Lütfen 4 haneli geçerli Game PIN kodunu giriniz.');
+                        alert('Please enter a valid 4-digit Game PIN.');
                         pinInput?.focus();
                         return;
                     }
@@ -811,7 +792,7 @@
                     if (e.key === 'Enter') joinBtn?.click();
                 });
 
-                return; // End execution for showcase visitor
+                return; // End execution for direct showcase visitor
             }
 
             // QR Code Player -> SHOW BUZZER APP
